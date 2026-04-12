@@ -260,11 +260,12 @@
   .timeline-item {
     position: relative;
     margin-bottom: 3rem;
-    opacity: 0;
-    transform: translateX(-20px);
+    opacity: 1;
+    transform: translateX(0);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
-  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-item.animate-hidden { opacity: 0; transform: translateX(-20px); }
+  .timeline-item.visible { opacity: 1 !important; transform: translateX(0) !important; }
   .timeline-dot {
     position: absolute;
     left: -2.35rem;
@@ -314,14 +315,14 @@
     background: var(--card);
     border: 1px solid var(--border);
     padding: 2rem;
-    transition: border-color 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.5s, transform 0.5s, border-color 0.2s;
   }
-  .project-card.visible { opacity: 1; transform: translateY(0); }
+  .project-card.animate-hidden { opacity: 0; transform: translateY(20px); }
+  .project-card.visible { opacity: 1 !important; transform: translateY(0) !important; }
   .project-card::before {
     content: '';
     position: absolute;
@@ -810,11 +811,15 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      entry.target.classList.remove('animate-hidden');
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.timeline-item, .project-card').forEach(el => observer.observe(el));
+document.querySelectorAll('.timeline-item, .project-card').forEach(el => {
+  el.classList.add('animate-hidden');
+  observer.observe(el);
+});
 
 // SKILL BARS
 const skills = [
