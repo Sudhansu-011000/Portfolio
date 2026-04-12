@@ -1252,5 +1252,8 @@
         current = section.getAttribute('id');
       }
     });
+  });
     navLinks.forEach(link => {
       link.style.color = link.getAttribute('href') === '#' 
+        + current ? 'var(--amber)' : 'var(--text-dim)';
+    });
